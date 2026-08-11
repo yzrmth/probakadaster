@@ -1,0 +1,102 @@
+classDiagram
+    direction TB
+
+    class ProbaKadasterPlugin {
+        +iface
+        +initGui()
+        +unload()
+        +run()
+    }
+    class MainDialog {
+        -layer_combo
+        -weight_spins
+        +on_run()
+        +on_export()
+        -_visualize(layer)
+    }
+    class QualityEngine {
+        +loader : DataLoader
+        +assessors : dict
+        +adqr : ADQRCalculator
+        +run(layer) dict
+    }
+    class DataLoader {
+        +field_map
+        +load(layer) list~Parcel~
+        +build_context(layer, parcels) dict
+    }
+    class BaseAssessor {
+        <<abstract>>
+        +element
+        +assess(parcel, context) IKBResult
+    }
+    class CompletenessAssessor
+    class LogicalConsistencyAssessor
+    class PositionalAccuracyAssessor
+    class ThematicAccuracyAssessor
+    class TemporalAccuracyAssessor
+
+    class AHPCalculator {
+        +cr_threshold
+        +compute(matrix) AHPResult
+        +aggregate_experts(matrices)
+    }
+    class ADQRCalculator {
+        +weights
+        +compute(parcel) ADQRResult
+    }
+    class Classifier {
+        +jenks_breaks(values, n)
+        +goodness_of_variance_fit()
+    }
+    class SpatialProcessor {
+        +apply_heatmap(layer)
+        +build_confidence_buffer(layer)
+    }
+    class AIPipeline {
+        +ocr : OCRModule
+        +seg : SegmentationModule
+        +georef : GeoreferencingModule
+        +llm : LLMModule
+        +run(scan, ref)
+    }
+
+    class Parcel {
+        +parcel_id
+        +area_kkp
+        +area_certificate
+        +kw_class
+        +ikb : dict
+        +adqr : ADQRResult
+    }
+    class IKBResult {
+        +element
+        +ikb_value
+        +detail
+    }
+    class ADQRResult {
+        +adqr_value
+        +quality_category
+        +confidence_class
+        +buffer_width_m
+    }
+
+    ProbaKadasterPlugin --> MainDialog : membuka
+    MainDialog --> QualityEngine : memakai
+    MainDialog --> SpatialProcessor : memakai
+    QualityEngine --> DataLoader
+    QualityEngine --> BaseAssessor : mengelola
+    QualityEngine --> ADQRCalculator
+    QualityEngine --> Classifier
+    ADQRCalculator --> AHPCalculator : bobot
+    BaseAssessor <|-- CompletenessAssessor
+    BaseAssessor <|-- LogicalConsistencyAssessor
+    BaseAssessor <|-- PositionalAccuracyAssessor
+    BaseAssessor <|-- ThematicAccuracyAssessor
+    BaseAssessor <|-- TemporalAccuracyAssessor
+    DataLoader --> Parcel : menghasilkan
+    BaseAssessor --> IKBResult : menghasilkan
+    ADQRCalculator --> ADQRResult : menghasilkan
+    Parcel *-- IKBResult
+    Parcel *-- ADQRResult
+    AIPipeline ..> DataLoader : feed data digital

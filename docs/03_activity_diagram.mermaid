@@ -1,0 +1,26 @@
+flowchart TD
+    start([Mulai]) --> a1[Pilih layer bidang tanah]
+    a1 --> a2[Atur / muat bobot AHP]
+    a2 --> a3{Bobot valid?<br/>total = 1 dan CR &le; 0.10}
+    a3 -->|Tidak| a2
+    a3 -->|Ya| a4[Muat Parcel dari layer]
+    a4 --> a5[Bangun konteks:<br/>duplikat, kawasan, topologi, referensi]
+
+    a5 --> loop{Untuk setiap bidang tanah}
+    loop -->|bidang berikutnya| b1[Nilai 5 elemen kualitas]
+    b1 --> b2[Hitung IKB per elemen]
+    b2 --> b3[Hitung ADQR = &Sigma; IKB &times; Egv]
+    b3 --> b4[Tentukan kelas confidence<br/>& lebar buffer]
+    b4 --> loop
+    loop -->|selesai semua bidang| c1[Klasifikasi Jenks + GVF]
+
+    c1 --> d1[Tulis kolom adqr, pos_conf,<br/>buffer_m, kualitas ke layer]
+    d1 --> d2[Terapkan Heatmap ADQR]
+    d1 --> d3[Bangun Positional Confidence Buffer]
+    d2 --> e1[Tampilkan Peta Probabilistik]
+    d3 --> e1
+    e1 --> e2[Tampilkan statistik & distribusi]
+    e2 --> f1{Ekspor laporan?}
+    f1 -->|Ya| f2[Ekspor CSV/PDF/HTML]
+    f1 -->|Tidak| done([Selesai])
+    f2 --> done

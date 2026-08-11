@@ -1,0 +1,14 @@
+{
+  "_comment": "Aturan konseptual: jenis hak yang TIDAK sesuai bila bidang berada pada kawasan/objek referensi tertentu. 'file' = nama file (relatif ke resources/reference_layers/) hasil upload. '*' pada jenis_hak_dilarang = seluruh jenis hak dianggap tidak sesuai. Dikelola lewat tab Pengaturan (Tambah/Edit/Hapus) - jangan edit manual kecuali paham skemanya.",
+  "kawasan_hutan": {
+    "label": "kawasan hutan",
+    "file": "kawasan_hutan.shp",
+    "atribut": "KECAMATAN",
+    "jenis_hak_dilarang": [
+      "HM",
+      "HGU",
+      "HGB"
+    ],
+    "catatan": null
+  }
+}

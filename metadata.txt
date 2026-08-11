@@ -1,0 +1,15 @@
+[general]
+name=ProbaKadaster
+qgisMinimumVersion=3.28
+description=Penilaian kualitas data bidang tanah (ISO 19157 + AHP/ADQR) dan pembuatan Peta Kadaster Probabilistik (Heatmap ADQR & Positional Confidence Buffer), dilengkapi modul AI untuk digitalisasi kadaster.
+about=Plugin otomatisasi penilaian kualitas data kadaster berbasis elemen ISO 19157 (Completeness, Logical Consistency, Positional Accuracy, Thematic Accuracy, Temporal Accuracy). Menghitung indeks kelas bidang (IKB) tiap elemen, mengagregasikannya dengan bobot AHP menjadi Aggregate Data Quality Rating (ADQR), lalu memvisualisasikan hasilnya sebagai Heatmap ADQR dan Positional Confidence Buffer. Menyediakan pipeline AI (OCR, Segmentation, Georeferencing, LLM) untuk digitalisasi peta analog dan peningkatan kualitas data bidang KW4-KW6.
+version=0.1.0
+author=Rizal Adhi Pratama
+email=rizal.adhi@mail.ugm.ac.id
+tracker=https://example.org/probakadaster/issues
+repository=https://example.org/probakadaster
+tags=cadastre,land,quality,iso19157,ahp,adqr,probabilistic,ai,heatmap,buffer
+category=Plugins
+icon=resources/icon.png
+experimental=True
+deprecated=False

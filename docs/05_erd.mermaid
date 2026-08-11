@@ -1,0 +1,66 @@
+erDiagram
+    PARCEL ||--o{ QUALITY_SCORE : "dinilai oleh"
+    PARCEL ||--|{ IKB_RESULT : "menghasilkan"
+    PARCEL ||--|| ADQR_RESULT : "diagregasi jadi"
+    PARCEL ||--o| BUFFER_ZONE : "punya"
+    QUALITY_ELEMENT ||--o{ QUALITY_SCORE : "mengklasifikasikan"
+    QUALITY_ELEMENT ||--|| AHP_WEIGHT : "berbobot"
+    QUALITY_ELEMENT ||--o{ IKB_RESULT : "diringkas jadi"
+
+    PARCEL {
+        string parcel_id PK "NIB"
+        int    fid
+        float  area_kkp "m2"
+        float  area_certificate "m2"
+        int    kw_class "1..6"
+        string jenis_hak
+        string nomor_hak
+        string nomor_su
+        date   tanggal_penerbitan
+        geometry geom "Polygon"
+    }
+
+    QUALITY_ELEMENT {
+        string element_code PK "completeness/logical/positional/thematic/temporal"
+        string nama
+    }
+
+    QUALITY_SCORE {
+        int    score_id PK
+        string parcel_id FK
+        string element_code FK
+        string sub_element "commission/omission/topologi/dst"
+        string unit "A1..A7 / B1..B7"
+        int    s_ij "0 atau 1"
+    }
+
+    IKB_RESULT {
+        int    ikb_id PK
+        string parcel_id FK
+        string element_code FK
+        float  ikb_value "0..1"
+        json   detail
+    }
+
+    AHP_WEIGHT {
+        string element_code PK,FK
+        float  eigenvector "0..1"
+        float  consistency_ratio
+    }
+
+    ADQR_RESULT {
+        string parcel_id PK,FK
+        float  adqr_value "0..1"
+        string quality_category "Sangat Baik..Sangat Rendah"
+        string confidence_class "heatmap"
+        string positional_confidence "buffer"
+        float  buffer_width_m "0.25..3.00"
+    }
+
+    BUFFER_ZONE {
+        int    buffer_id PK
+        string parcel_id FK
+        float  buffer_width_m
+        string confidence_class
+        geometry geom "Polygon ring"
+    }

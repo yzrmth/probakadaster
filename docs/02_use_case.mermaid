@@ -1,0 +1,43 @@
+flowchart LR
+    PU(("👤 Petugas Ukur"))
+    AG(("👤 Analis GIS"))
+    KK(("👤 Kepala Kantor"))
+    AI(("⚙️ AI Engine"))
+
+    subgraph SYS[Sistem ProbaKadaster]
+        UC1([Memuat Data Bidang Tanah])
+        UC2([Digitalisasi Peta Analog - AI])
+        UC3([Menilai Completeness])
+        UC4([Menilai Logical Consistency])
+        UC5([Menilai Positional Accuracy])
+        UC6([Menilai Thematic Accuracy])
+        UC7([Menilai Temporal Accuracy])
+        UC8([Mengatur Bobot AHP])
+        UC9([Menghitung ADQR])
+        UC10([Membuat Heatmap ADQR])
+        UC11([Membuat Confidence Buffer])
+        UC12([Melihat Peta Probabilistik])
+        UC13([Mengekspor Laporan Kualitas])
+    end
+
+    PU --> UC1
+    PU --> UC2
+    AG --> UC1
+    AG --> UC8
+    AG --> UC9
+    AG --> UC10
+    AG --> UC11
+    AG --> UC12
+    AG --> UC13
+    KK --> UC12
+    KK --> UC13
+
+    AI --> UC2
+    UC9 -. include .-> UC3
+    UC9 -. include .-> UC4
+    UC9 -. include .-> UC5
+    UC9 -. include .-> UC6
+    UC9 -. include .-> UC7
+    UC10 -. extend .-> UC9
+    UC11 -. extend .-> UC9
+    UC2 -. precede .-> UC1

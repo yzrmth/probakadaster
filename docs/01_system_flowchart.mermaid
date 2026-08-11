@@ -1,0 +1,38 @@
+flowchart TD
+    A([MULAI]) --> B[Input Data Vektor Bidang Tanah<br/>KKP ATR/BPN]
+    B --> C{Sumber data<br/>analog atau digital?}
+
+    C -->|Peta analog hasil scan| D[Pipeline AI]
+    D --> D1[OCR<br/>Ekstraksi teks & atribut]
+    D --> D2[AI Segmentation<br/>Ekstraksi batas bidang]
+    D1 --> D3[AI Georeferencing<br/>Referensi spasial]
+    D2 --> D3
+    D3 --> D4[LLM<br/>Interpretasi semantik & inkonsistensi]
+    D4 --> E
+
+    C -->|Data digital| E[Pemuatan & Validasi Skema<br/>DataLoader]
+    E --> F[Bangun Konteks Penilaian<br/>duplikat, overlay kawasan, topologi, referensi]
+
+    F --> G1[Completeness<br/>IKB_co, IKB_cc, KW]
+    F --> G2[Logical Consistency<br/>konseptual & topologi]
+    F --> G3[Positional Accuracy<br/>CR, near distance, area, uji-z]
+    F --> G4[Thematic Accuracy<br/>toleransi luas]
+    F --> G5[Temporal Accuracy<br/>bobot usia AHP]
+
+    G1 --> H[Hitung IKB tiap elemen]
+    G2 --> H
+    G3 --> H
+    G4 --> H
+    G5 --> H
+
+    H --> I[Bobot AHP Eigenvector<br/>uji konsistensi CR &le; 0.10]
+    I --> J[Agregasi ADQR<br/>&Sigma; IKB &times; Egv]
+    J --> K[Klasifikasi Natural Breaks Jenks<br/>hitung GVF]
+
+    K --> L1[Visualisasi Heatmap ADQR<br/>gradasi Merah-Kuning-Hijau]
+    K --> L2[Positional Confidence Buffer<br/>zone of uncertainty 0.25-3.00 m]
+
+    L1 --> M[Peta Kadaster Probabilistik]
+    L2 --> M
+    M --> N[Interpretasi & Rekomendasi<br/>prioritas peningkatan kualitas]
+    N --> O([SELESAI])
